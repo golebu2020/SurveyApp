@@ -1,24 +1,31 @@
-# README
+# Survey Management System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![alt text](<Screenshot 2025-04-18 at 11.46.01 AM.png>)
 
-Things you may want to cover:
+A full-stack survey management application with role-based access control built with Rails API and React.
 
-* Ruby version
+## Features
 
-* System dependencies
+- 🔐 JWT Authentication
+- 👥 Role-based permissions (Admin/Manager/User)
+- 📝 Survey creation with questions
+- 📊 Assignment tracking
+- 🔍 Search functionality
+- 📱 Responsive UI
 
-* Configuration
+## Tech Stack
 
-* Database creation
+**Backend:**  
+Ruby on Rails, PostgreSQL, Devise, Pundit
 
-* Database initialization
+**Frontend:**  
+React, TypeScript, Chakra UI, React Query
 
-* How to run the test suite
+## Setup
 
-* Services (job queues, cache servers, search engines, etc.)
+1. Clone repo:
 
-* Deployment instructions
-
-* ...
+```bash
+git clone https://github.com/golebu2020/SurveyApp.git
+cd survey-app
+```

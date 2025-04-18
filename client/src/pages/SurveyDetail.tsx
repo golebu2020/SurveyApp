@@ -11,9 +11,9 @@ import {
 import { useParams } from 'react-router-dom';
 import { useSurvey } from '../api/hooks';
 import { SurveyQuestions } from '../components/SurveyQestions';
-import { SurveyAssignments } from '../components/SurveyAssignments';
 import { CompleteSurvey } from '../components/CompleteSurvey';
 import { Loading } from '../components/Loading';
+import { SurveyAssignments } from '../components/SurveyAssignments';
 
 export function SurveyDetail() {
   const { id } = useParams();
