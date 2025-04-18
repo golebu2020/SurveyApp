@@ -3,10 +3,13 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Link,
+  Text,
   VStack,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useLogin } from '../api/hooks';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface LoginFormData {
   email: string;
@@ -46,12 +49,24 @@ export function Login() {
 
       <Button
         type="submit"
-        isLoading={isPending} // Changed to isPending
+        isLoading={isPending}
         colorScheme="blue"
         width="full"
       >
         Login
       </Button>
+
+      <Text mt={4} textAlign="center">
+        Don't have an account?{' '}
+        <Link
+          as={RouterLink}
+          to="/register"
+          color="blue.500"
+          fontWeight="semibold"
+        >
+          Register here
+        </Link>
+      </Text>
     </VStack>
   );
 }
