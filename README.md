@@ -53,6 +53,20 @@ docker-compose up -build
 Frontend Endpoint: `http://localhost:3001`
 Backend Endpoint: `http://localhost:3000`
 
+### Running Tests
+
+Backend:
+
+```bash
+docker-compose exec web bundle exec rspec
+```
+
+### Seeding Data
+
+```bash
+docker-compose exec web bundle exec rails db:seed
+```
+
 ## API Documentation
 
 ### User Registration
@@ -144,17 +158,3 @@ curl -X POST http://localhost:3000/api/v1/survey_assignments \
 ```curl -X GET "http://localhost:3000/api/v1/surveys?q[name_cont]=Feedback" \
   -H "Authorization: Bearer YOUR_USER_TOKEN"```
 ````
-
-### Running Tests
-
-Backend:
-
-```bash
-docker-compose exec web bundle exec rspec
-```
-
-### Seeding Data
-
-```bash
-docker-compose exec web bundle exec rails db:seed
-```
