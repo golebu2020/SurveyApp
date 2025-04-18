@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { get, post } from './client';
+import { get, post, del, put } from './client';
 import { useAuth } from '../context/auth';
-import { Question, Survey, User } from './types';
+import { Question, Survey, SurveyAssignment, User } from './types';
 
 export function useLogin() {
   const { login } = useAuth();
@@ -103,6 +103,55 @@ export function useCompleteSurvey() {
     }) => post(`/api/v1/surveys/${surveyId}/complete`, { responses }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['surveys'] });
+    },
+  });
+}
+
+export function useSurveyAssignments(surveyId: number) {
+  return useQuery<SurveyAssignment[]>({
+    queryKey: ['surveyAssignments', surveyId],
+    queryFn: () => get(`/api/v1/surveys/${surveyId}/assignments`),
+    refetchInterval: 5000,
+  });
+}
+
+export function useDeleteQuestion() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      surveyId,
+      questionId,
+    }: {
+      surveyId: number;
+      questionId: number;
+    }) => del(`/api/v1/surveys/${surveyId}/questions/${questionId}`),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ['surveyQuestions', variables.surveyId],
+      });
+    },
+  });
+}
+
+export function useUpdateQuestion() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      surveyId,
+      questionId,
+      data,
+    }: {
+      surveyId: number;
+      questionId: number;
+      data: Partial<Question>;
+    }) =>
+      put(`/api/v1/surveys/${surveyId}/questions/${questionId}`, {
+        question: data,
+      }),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ['surveyQuestions', variables.surveyId],
+      });
     },
   });
 }
