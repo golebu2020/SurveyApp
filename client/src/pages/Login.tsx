@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -6,6 +7,8 @@ import {
   Link,
   Text,
   VStack,
+  Heading,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useLogin } from '../api/hooks';
@@ -29,44 +32,71 @@ export function Login() {
     login(data);
   };
 
+  const cardBg = useColorModeValue('white', 'gray.700');
+  const cardShadow = useColorModeValue('sm', 'dark-lg');
+
   return (
-    <VStack as="form" onSubmit={handleSubmit(onSubmit)} spacing={4}>
-      <FormControl isInvalid={!!errors.email}>
-        <FormLabel>Email</FormLabel>
-        <Input
-          type="email"
-          {...register('email', { required: 'Email is required' })}
-        />
-      </FormControl>
+    <Box
+      maxW="md"
+      mx="auto"
+      mt={20}
+      p={8}
+      bg={cardBg}
+      boxShadow={cardShadow}
+      borderRadius="lg"
+    >
+      <Heading size="xl" mb={8} textAlign="center">
+        Welcome Back
+      </Heading>
 
-      <FormControl isInvalid={!!errors.password}>
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          {...register('password', { required: 'Password is required' })}
-        />
-      </FormControl>
+      <VStack as="form" onSubmit={handleSubmit(onSubmit)} spacing={6}>
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel fontSize="sm" fontWeight="medium">
+            Email
+          </FormLabel>
+          <Input
+            type="email"
+            size="md"
+            {...register('email', { required: 'Email is required' })}
+            focusBorderColor="blue.400"
+          />
+        </FormControl>
 
-      <Button
-        type="submit"
-        isLoading={isPending}
-        colorScheme="blue"
-        width="full"
-      >
-        Login
-      </Button>
+        <FormControl isInvalid={!!errors.password}>
+          <FormLabel fontSize="sm" fontWeight="medium">
+            Password
+          </FormLabel>
+          <Input
+            type="password"
+            size="md"
+            {...register('password', { required: 'Password is required' })}
+            focusBorderColor="blue.400"
+          />
+        </FormControl>
 
-      <Text mt={4} textAlign="center">
-        Don't have an account?{' '}
-        <Link
-          as={RouterLink}
-          to="/register"
-          color="blue.500"
-          fontWeight="semibold"
+        <Button
+          type="submit"
+          isLoading={isPending}
+          colorScheme="blue"
+          width="full"
+          size="md"
+          mt={4}
         >
-          Register here
-        </Link>
-      </Text>
-    </VStack>
+          Sign In
+        </Button>
+
+        <Text mt={6} textAlign="center" fontSize="sm" color="gray.500">
+          Don't have an account?{' '}
+          <Link
+            as={RouterLink}
+            to="/register"
+            color="blue.500"
+            fontWeight="medium"
+          >
+            Create account
+          </Link>
+        </Text>
+      </VStack>
+    </Box>
   );
 }

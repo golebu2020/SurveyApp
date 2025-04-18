@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { get, post } from './client';
 import { useAuth } from '../context/auth';
-import { Survey } from './types';
+import { Question, Survey } from './types';
 
 // Auth hooks
 export function useLogin() {
@@ -42,7 +42,7 @@ export function useCreateSurvey() {
 }
 
 export function useSurveyQuestions(surveyId: number) {
-  return useQuery({
+  return useQuery<Question[]>({
     queryKey: ['surveyQuestions', surveyId],
     queryFn: () => get(`/api/v1/surveys/${surveyId}/questions`),
   });
