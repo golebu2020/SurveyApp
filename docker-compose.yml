@@ -7,6 +7,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - pg_data:/var/lib/postgresql/data
+
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
@@ -19,6 +20,22 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/survey_app_development
       RAILS_ENV: development
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - web
+    stdin_open: true
+    tty: true
 
 volumes:
   pg_data:
