@@ -1,6 +1,6 @@
 module Api
   module V1
-    class QuestionsController < ApplicationController
+    class QuestionsController < BaseController
       before_action :set_question, only: [:show, :update, :destroy]
 
       def index

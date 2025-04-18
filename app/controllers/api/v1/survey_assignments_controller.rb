@@ -1,6 +1,6 @@
 module Api
   module V1
-    class SurveyAssignmentsController < ApplicationController
+    class SurveyAssignmentsController < BaseController
       before_action :set_assignment, only: [:show, :update]
 
       def index
