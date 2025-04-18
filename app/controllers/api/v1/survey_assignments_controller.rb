@@ -17,6 +17,9 @@ module Api
         @assignment = SurveyAssignment.new(assignment_params)
         authorize @assignment
         if @assignment.save
+          user = User.find(@assignment.assigned_to)
+          survey = @assignment.survey
+          SurveyMailer.survey_assigned(user, survey).deliver_later
           render json: @assignment, status: :created
         else
           render json: @assignment.errors, status: :unprocessable_entity
