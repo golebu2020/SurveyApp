@@ -4,16 +4,18 @@ module Api
       before_action :set_survey, only: [:show, :update, :destroy]
 
       def index
-        @surveys = Survey.all
+        @surveys = policy_scope(Survey)
         render json: @surveys
       end
 
       def show
+        authorize @survey
         render json: @survey, include: :questions
       end
 
       def create
-        @survey = Survey.new(survey_params)
+        @survey = Survey.new(survey_params.merge(created_by: current_user.id))
+        authorize @survey
         if @survey.save
           render json: @survey, status: :created
         else
@@ -22,6 +24,7 @@ module Api
       end
 
       def update
+        authorize @survey
         if @survey.update(survey_params)
           render json: @survey
         else
@@ -30,6 +33,7 @@ module Api
       end
 
       def destroy
+        authorize @survey
         @survey.destroy
         head :no_content
       end

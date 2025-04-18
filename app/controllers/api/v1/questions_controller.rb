@@ -4,16 +4,21 @@ module Api
       before_action :set_question, only: [:show, :update, :destroy]
 
       def index
-        @questions = Question.where(survey_id: params[:survey_id])
+        survey = Survey.find(params[:survey_id])
+        @questions = policy_scope(survey.questions)
         render json: @questions
       end
 
       def show
+        authorize @question
         render json: @question
       end
 
       def create
-        @question = Question.new(question_params)
+        survey = Survey.find(question_params[:survey_id])
+        @question = survey.questions.build(question_params)
+        authorize @question
+        
         if @question.save
           render json: @question, status: :created
         else
@@ -22,15 +27,16 @@ module Api
       end
 
       def update
+        authorize @question
         if @question.update(question_params)
           render json: @question
         else
           render json: @question.errors, status: :unprocessable_entity
         end
-        end
       end
 
       def destroy
+        authorize @question
         @question.destroy
         head :no_content
       end

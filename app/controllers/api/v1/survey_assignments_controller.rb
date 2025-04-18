@@ -4,16 +4,18 @@ module Api
       before_action :set_assignment, only: [:show, :update]
 
       def index
-        @assignments = SurveyAssignment.all
+        @assignments = policy_scope(Assignment)
         render json: @assignments
       end
 
       def show
+        authorize @assignment 
         render json: @assignment
       end
 
       def create
         @assignment = SurveyAssignment.new(assignment_params)
+        authorize @assignment
         if @assignment.save
           render json: @assignment, status: :created
         else
@@ -22,6 +24,7 @@ module Api
       end
 
       def update
+        authorize @assignment
         if @assignment.update(assignment_params)
           render json: @assignment
         else
