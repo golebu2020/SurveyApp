@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { useSurvey } from '../api/hooks';
 import { SurveyQuestions } from '../components/SurveyQestions';
 import { SurveyAssignments } from '../components/SurveyAssignments';
+import { CompleteSurvey } from '../components/CompleteSurvey';
 
 export function SurveyDetail() {
   const { id } = useParams();
@@ -28,6 +29,7 @@ export function SurveyDetail() {
         <TabList>
           <Tab>Questions</Tab>
           <Tab>Assignments</Tab>
+          {survey?.status === 'ASSIGNED' && <Tab>Complete Survey</Tab>}
         </TabList>
 
         <TabPanels>
@@ -37,6 +39,11 @@ export function SurveyDetail() {
           <TabPanel>
             <SurveyAssignments surveyId={Number(id)} />
           </TabPanel>
+          {survey?.status === 'ASSIGNED' && (
+            <TabPanel>
+              <CompleteSurvey surveyId={Number(id)} />
+            </TabPanel>
+          )}
         </TabPanels>
       </Tabs>
     </Box>
