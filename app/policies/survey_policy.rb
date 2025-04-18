@@ -12,7 +12,13 @@ class SurveyPolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    if user.admin?
+      true
+    elsif user.manager?
+      record.created_by == user.id
+    else
+      record.survey_assignments.where(assigned_to: user.id).exists?
+    end
   end
 
   def show?

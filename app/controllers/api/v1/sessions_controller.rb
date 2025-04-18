@@ -4,17 +4,25 @@ module Api
       respond_to :json
 
       def create
-        self.resource = warden.authenticate!(auth_options)
-        sign_in(resource_name, resource)
-        jwt_token = request.env['warden-jwt_auth.token']
+        user = User.find_by(email: params[:user][:email].downcase.strip)
         
-        render json: {
-          status: { code: 200, message: 'Logged in successfully.' },
-          data: {
-            user: UserSerializer.new(resource).serializable_hash[:data][:attributes],
-            token: jwt_token
+        if user&.valid_password?(params[:user][:password])
+          sign_in(user)
+          render json: {
+            status: { 
+              code: 200, 
+              message: 'Logged in successfully.' 
+            },
+            data: {
+              user: UserSerializer.new(user).serializable_hash[:data][:attributes],
+              token: request.env['warden-jwt_auth.token']
+            }
           }
-        }
+        else
+          render json: { 
+            error: 'Invalid email or password' 
+          }, status: :unauthorized
+        end
       end
     end
   end

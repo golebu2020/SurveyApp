@@ -4,8 +4,7 @@ module Api
       before_action :set_survey, only: [:show, :update, :destroy]
 
       def index
-        @q = policy_scope(Survey).ransack(params[:q])
-        @surveys = @q.result(distinct: true)
+        @surveys = policy_scope(Survey) 
         render json: @surveys
       end
 
@@ -34,7 +33,6 @@ module Api
       end
 
       def destroy
-        authorize @survey
         @survey.destroy
         head :no_content
       end
