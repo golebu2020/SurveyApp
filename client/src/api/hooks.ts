@@ -3,7 +3,6 @@ import { get, post } from './client';
 import { useAuth } from '../context/auth';
 import { Question, Survey, User } from './types';
 
-// Auth hooks
 export function useLogin() {
   const { login } = useAuth();
   return useMutation<void, Error, { email: string; password: string }>({
@@ -79,6 +78,29 @@ export function useAssignSurvey() {
       post('/api/v1/survey_assignments', {
         survey_assignment: { survey_id: surveyId, assigned_to: assignedTo },
       }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['surveys'] });
+    },
+  });
+}
+
+export function useSurvey(surveyId: number) {
+  return useQuery<Survey>({
+    queryKey: ['survey', surveyId],
+    queryFn: () => get(`/api/v1/surveys/${surveyId}`),
+  });
+}
+
+export function useCompleteSurvey() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      surveyId,
+      responses,
+    }: {
+      surveyId: number;
+      responses: any;
+    }) => post(`/api/v1/surveys/${surveyId}/complete`, { responses }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['surveys'] });
     },
