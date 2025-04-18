@@ -155,3 +155,13 @@ export function useUpdateQuestion() {
     },
   });
 }
+
+export function useDeleteSurvey() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (surveyId: number) => del(`/api/v1/surveys/${surveyId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['surveys'] });
+    },
+  });
+}
