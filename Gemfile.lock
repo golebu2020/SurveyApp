@@ -361,6 +361,7 @@ DEPENDENCIES
   sqlite3 (>= 2.1)
   thruster
   tzinfo-data
+  warden-jwt_auth
 
 BUNDLED WITH
    2.4.10

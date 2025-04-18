@@ -26,6 +26,7 @@ gem 'ransack'
 gem 'rack-cors'
 gem 'jsonapi-serializer'
 gem 'devise-jwt'
+gem 'warden-jwt_auth'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
