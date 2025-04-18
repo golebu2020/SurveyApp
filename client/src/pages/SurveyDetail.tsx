@@ -13,12 +13,13 @@ import { useSurvey } from '../api/hooks';
 import { SurveyQuestions } from '../components/SurveyQestions';
 import { SurveyAssignments } from '../components/SurveyAssignments';
 import { CompleteSurvey } from '../components/CompleteSurvey';
+import { Loading } from '../components/Loading';
 
 export function SurveyDetail() {
   const { id } = useParams();
   const { data: survey, isLoading } = useSurvey(Number(id));
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <Box>
