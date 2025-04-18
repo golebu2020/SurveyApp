@@ -1,13 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { get, post } from './client';
 import { useAuth } from '../context/auth';
-import { Question, Survey } from './types';
+import { Question, Survey, User } from './types';
 
 // Auth hooks
 export function useLogin() {
   const { login } = useAuth();
   return useMutation<void, Error, { email: string; password: string }>({
     mutationFn: ({ email, password }) => login(email, password),
+  });
+}
+
+export function useUsers() {
+  return useQuery<User[]>({
+    queryKey: ['users'],
+    queryFn: () => get('/api/v1/users'),
   });
 }
 

@@ -13,3 +13,9 @@ export interface Question {
   info: string;
   survey_id: number;
 }
+
+export interface User {
+  id: number;
+  email: string;
+  role: 'admin' | 'manager' | 'user';
+}
