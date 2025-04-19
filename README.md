@@ -61,10 +61,22 @@ Backend:
 docker-compose exec web bundle exec rspec
 ```
 
+### Create Database
+
+```bash
+docker-compose exec web bundle exec bin/rails db:create
+```
+
 ### Seeding Data
 
 ```bash
 docker-compose exec web bundle exec rails db:seed
+```
+
+### Stop Application
+
+```bash
+docker-compose down
 ```
 
 ## API Documentation
