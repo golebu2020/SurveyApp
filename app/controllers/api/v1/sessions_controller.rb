@@ -4,9 +4,18 @@ module Api
       respond_to :json
 
       def create
-        user = User.find_by(email: params[:user][:email].downcase.strip)
+        # Safest parameter parsing with multiple fallbacks
+        user_params = params[:user] || params.dig(:session, :user) || params.dig(:auth) || {}
+        email = user_params[:email]&.downcase&.strip
+        password = user_params[:password]
+
+        unless email && password
+          return render json: { error: 'Email and password are required' }, status: :unprocessable_entity
+        end
+
+        user = User.find_by(email: email)
         
-        if user&.valid_password?(params[:user][:password])
+        if user&.valid_password?(password)
           sign_in(user)
           render json: {
             status: { 

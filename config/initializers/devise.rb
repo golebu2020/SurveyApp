@@ -185,7 +185,7 @@ Devise.setup do |config|
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
 
   config.jwt do |jwt|
-    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
+    jwt.secret = Rails.application.credentials.secret_key_base
     jwt.dispatch_requests = [
       ['POST', %r{^/users/sign_in$}]
     ]
