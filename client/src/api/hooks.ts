@@ -1,12 +1,38 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { get, post, del, put } from './client';
 import { useAuth } from '../context/auth';
-import { Question, Survey, SurveyAssignment, User } from './types';
+import { ApiError, Question, Survey, SurveyAssignment, User } from './types';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
 
 export function useLogin() {
-  const { login } = useAuth();
-  return useMutation<void, Error, { email: string; password: string }>({
-    mutationFn: ({ email, password }) => login(email, password),
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  return useMutation<
+    { user: User; token: string },
+    ApiError,
+    { email: string; password: string }
+  >({
+    mutationFn: (credentials) => post('/users/sign_in', { auth: credentials }),
+    onSuccess: (response) => {
+      toast({
+        title: 'Login successful',
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+      navigate('/survey');
+    },
+    onError: (error: ApiError) => {
+      toast({
+        title: 'Login failed',
+        description: error.response?.data?.message || 'Please try again',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    },
   });
 }
 
@@ -18,13 +44,33 @@ export function useUsers() {
 }
 
 export function useRegister() {
-  const { register } = useAuth();
+  const navigate = useNavigate();
+  const toast = useToast();
+
   return useMutation<
-    void,
-    Error,
+    { user: User; token: string },
+    ApiError,
     { email: string; password: string; role: string }
   >({
-    mutationFn: ({ email, password, role }) => register(email, password, role),
+    mutationFn: (userData) => post('/users', { user: userData }),
+    onSuccess: (response) => {
+      toast({
+        title: 'Registration successful',
+        status: 'success',
+        duration: 1000,
+        isClosable: true,
+      });
+      navigate('/login');
+    },
+    onError: (error: ApiError) => {
+      toast({
+        title: 'Registration failed',
+        description: error.response?.data?.message || 'Please try again',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    },
   });
 }
 

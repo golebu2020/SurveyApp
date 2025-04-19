@@ -29,3 +29,13 @@ export interface SurveyAssignment {
   created_at: string;
   updated_at: string;
 }
+
+export interface ApiError extends Error {
+  response?: {
+    data?: {
+      message?: string;
+      errors?: Record<string, string[]>;
+    };
+    status?: number;
+  };
+}

@@ -29,6 +29,7 @@ export function Register() {
   const { mutate: registerUser, isPending } = useRegister();
 
   const onSubmit = (data: RegisterFormData) => {
+    console.log('Data: ', data);
     registerUser(data);
   };
 
