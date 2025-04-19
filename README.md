@@ -34,7 +34,7 @@ To run this project, you will need to add the following environment variables to
 
 ### Backend (API) Variables
 
-Create `api/.env` file with:
+Create `client/.env` file with:
 
 ```env
 DATABASE_URL=postgres://postgres:password@db:5432/survey_app_development
