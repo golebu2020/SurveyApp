@@ -47,7 +47,7 @@ REACT_APP_API_URL=http://localhost:3000
 Ensure that you have docker desktop and docker installed on your machine. If that is confirmed, then do then run the following commands:
 
 ```bash
-docker-compose up -build
+docker-compose up -d
 ```
 
 Frontend Endpoint: `http://localhost:3001`
