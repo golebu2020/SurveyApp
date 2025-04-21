@@ -56,6 +56,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'pundit-matchers', '~> 1.7.0'
+  gem 'pundit-matchers', '~> 4.0.0'
 end
 gem 'pg'
